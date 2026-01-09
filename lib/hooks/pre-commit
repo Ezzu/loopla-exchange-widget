@@ -1,0 +1,22 @@
+#!/bin/sh
+
+echo "Running Prettier..."
+
+FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(js|jsx|ts|tsx|json|css|scss|md)$')
+
+if [ -z "$FILES" ]; then
+  echo "No files to format"
+  exit 0
+fi
+
+npx prettier --write $FILES
+
+if [ $? -ne 0 ]; then
+  echo "Prettier failed"
+  exit 1
+fi
+
+# Re-add formatted files to commit
+echo "$FILES" | xargs git add
+
+echo "Prettier completed successfully"
