@@ -1,4 +1,4 @@
-import type { ExchangeRatesResponse } from 'shared';
+import type { ExchangeRatesResponse, ApiErrorResponse } from 'shared';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000';
 
@@ -12,10 +12,16 @@ export const exchangeRatesApi = {
 
     const response = await fetch(url.toString());
 
+    const data = await response.json();
+
+    // Check if response is an error
     if (!response.ok) {
-      throw new Error(`Failed to fetch exchange rates: ${response.statusText}`);
+      const errorData = data as ApiErrorResponse;
+      const errorMessage =
+        errorData.error?.message || `Failed to fetch exchange rates: ${response.statusText}`;
+      throw new Error(errorMessage);
     }
 
-    return response.json();
+    return data as ExchangeRatesResponse;
   },
 };

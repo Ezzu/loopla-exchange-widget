@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { ExchangeRatesService } from 'services';
+import { ApiError, ValidationError } from 'errors';
 
 export class ExchangeRatesController {
   private exchangeRatesService: ExchangeRatesService;
@@ -11,13 +12,38 @@ export class ExchangeRatesController {
   async getLatestRates(req: Request, res: Response): Promise<void> {
     try {
       const baseCurrency = req.query.base as string | undefined;
+
+      // Validate base currency is provided
+      if (!baseCurrency) {
+        throw new ValidationError('Base currency is required');
+      }
+
       const rates = await this.exchangeRatesService.getLatestRates(baseCurrency);
 
       res.json(rates);
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Failed to fetch exchange rates';
-
-      res.status(500).json({ error: message });
+      this.handleError(error, res);
     }
+  }
+
+  private handleError(error: unknown, res: Response): void {
+    if (error instanceof ApiError) {
+      res.status(error.statusCode).json({
+        error: {
+          message: error.message,
+          code: error.code,
+        },
+      });
+
+      return;
+    }
+
+    // Handle unexpected errors
+    const message = error instanceof Error ? error.message : 'An unexpected error occurred';
+    res.status(500).json({
+      error: {
+        message,
+      },
+    });
   }
 }

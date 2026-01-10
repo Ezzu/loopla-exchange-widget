@@ -1,1 +1,1 @@
-export * from './currency-exchange.types';
+export * from './api-response.types';

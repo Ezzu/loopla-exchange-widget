@@ -1,3 +1,11 @@
+import { ExchangeRatesResponse } from 'shared';
+import {
+  BaseCurrencyRestrictedError,
+  ExternalApiError,
+  InvalidAccessKeyError,
+  MissingAccessKeyError,
+} from 'errors';
+
 export class ExchangeRatesService {
   private readonly baseUrl: string;
   private readonly accessKey: string;
@@ -17,20 +25,49 @@ export class ExchangeRatesService {
     this.accessKey = key;
   }
 
-  async getLatestRates(baseCurrency?: string): Promise<any> {
+  async getLatestRates(baseCurrency?: string): Promise<ExchangeRatesResponse> {
     const url = new URL(`${this.baseUrl}/latest`);
     url.searchParams.append('access_key', this.accessKey);
-    
+
     if (baseCurrency) {
       url.searchParams.append('base', baseCurrency);
     }
 
     const response = await fetch(url.toString());
-    
-    if (!response.ok) {
-      throw new Error(`Failed to fetch exchange rates: ${response.statusText}`);
+
+    // Try to parse JSON response
+    let data: any;
+    try {
+      data = await response.json();
+    } catch (error) {
+      // If JSON parsing fails, throw with HTTP status
+      throw new ExternalApiError(`HTTP error: ${response.statusText}`);
     }
 
-    return response.json();
+    // Check if the API returned an error response
+    if (data.error) {
+      this.handleApiError(data.error.code, data.error.message);
+    }
+
+    // Check HTTP status as fallback
+    if (!response.ok) {
+      throw new ExternalApiError(`HTTP error: ${response.statusText}`);
+    }
+
+    // Return the success response
+    return data as ExchangeRatesResponse;
+  }
+
+  private handleApiError(code: string, message: string): never {
+    switch (code) {
+      case 'invalid_access_key':
+        throw new InvalidAccessKeyError();
+      case 'missing_access_key':
+        throw new MissingAccessKeyError();
+      case 'base_currency_access_restricted':
+        throw new BaseCurrencyRestrictedError();
+      default:
+        throw new ExternalApiError(message, code);
+    }
   }
 }
