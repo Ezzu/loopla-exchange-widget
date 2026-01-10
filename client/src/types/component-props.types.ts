@@ -1,4 +1,5 @@
 import type { IconType } from 'react-icons';
+import type { ReactNode } from 'react';
 
 // Typography Component Props
 export interface TitleProps {
@@ -10,6 +11,13 @@ export interface SubtitleProps {
 }
 
 export interface FooterTextProps {
+  color?: string;
+}
+
+export interface TextProps {
+  children: ReactNode;
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  weight?: 'light' | 'normal' | 'medium' | 'semibold' | 'bold';
   color?: string;
 }
 
@@ -25,11 +33,17 @@ export interface InlineErrorProps {
   onRetry?: () => void;
 }
 
-// Currency Exchange Component Props
-export interface CurrencyExchangeListProps {
-  baseCurrency?: string;
-  targetCurrencies?: string[];
-  refreshInterval?: number;
+// Form Component Props
+export interface SelectOption {
+  value: string;
+  label: string;
+}
+
+export interface SelectProps {
+  value: string;
+  options: SelectOption[];
+  onChange: (value: string) => void;
+  label?: string;
 }
 
 export interface CurrencyCardProps {

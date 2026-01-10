@@ -1,51 +1,42 @@
 import styled from '@emotion/styled';
 import type { CurrencyCardProps } from 'types';
-import {
-  formatCurrencyRate,
-  formatPercentageChange,
-  getChangeIndicator,
-  getCurrencySymbol,
-} from 'utils';
-import { ArrowRightIcon, Card } from 'components';
+import { formatCurrencyRate, getCurrencySymbol, getCurrencyFlag } from 'utils';
+import { ArrowRightIcon, Card, Text } from 'components';
 import { COLORS } from 'constants';
 
-const CurrencyCard = ({ fromCurrency, toCurrency, rate, change }: CurrencyCardProps) => {
-  const changeVariant = change
-    ? change > 0
-      ? 'positive'
-      : change < 0
-        ? 'negative'
-        : 'neutral'
-    : 'neutral';
+const CurrencyCard = ({ fromCurrency, toCurrency, rate }: CurrencyCardProps) => (
+  <Card>
+    <CurrencyPair>
+      <CurrencyInfo>
+        <Flag>{getCurrencyFlag(fromCurrency)}</Flag>
+        <CurrencyText>
+          <Text size="md" weight="semibold">
+            {fromCurrency}
+          </Text>
+          <Text size="sm" weight="medium" color={COLORS.TEXT_LIGHT_GRAY}>
+            ({getCurrencySymbol(fromCurrency)})
+          </Text>
+        </CurrencyText>
+      </CurrencyInfo>
 
-  return (
-    <Card>
-      <CurrencyPair>
-        <CurrencyInfo>
-          <CurrencySymbol>{getCurrencySymbol(fromCurrency)}</CurrencySymbol>
-          <CurrencyCode>{fromCurrency}</CurrencyCode>
-        </CurrencyInfo>
-        <ArrowIconWrapper>
-          <ArrowRightIcon size={20} />
-        </ArrowIconWrapper>
-        <CurrencyInfo>
-          <CurrencySymbol>{getCurrencySymbol(toCurrency)}</CurrencySymbol>
-          <CurrencyCode>{toCurrency}</CurrencyCode>
-        </CurrencyInfo>
-      </CurrencyPair>
+      <ArrowIconWrapper>
+        <ArrowRightIcon size={20} />
+      </ArrowIconWrapper>
 
-      <RateInfo>
-        <RateValue>{formatCurrencyRate(rate)}</RateValue>
-        {change !== undefined && (
-          <RateChange variant={changeVariant}>
-            <ChangeIndicator>{getChangeIndicator(change)}</ChangeIndicator>
-            <span>{formatPercentageChange(change)}</span>
-          </RateChange>
-        )}
-      </RateInfo>
-    </Card>
-  );
-};
+      <CurrencyInfo>
+        <Flag>{getCurrencyFlag(toCurrency)}</Flag>
+        <CurrencyText>
+          <Text size="md" weight="semibold">
+            {formatCurrencyRate(rate)}
+          </Text>
+          <Text size="sm" weight="medium" color={COLORS.TEXT_LIGHT_GRAY}>
+            {toCurrency} ({getCurrencySymbol(toCurrency)})
+          </Text>
+        </CurrencyText>
+      </CurrencyInfo>
+    </CurrencyPair>
+  </Card>
+);
 
 const CurrencyPair = styled.div`
   display: flex;
@@ -59,54 +50,23 @@ const CurrencyInfo = styled.div`
   gap: 0.5rem;
 `;
 
-const CurrencySymbol = styled.span`
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: ${COLORS.TEXT_PRIMARY};
+const Flag = styled.span`
+  font-size: 2rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
 `;
 
-const CurrencyCode = styled.span`
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: ${COLORS.TEXT_LIGHT_GRAY};
-  text-transform: uppercase;
+const CurrencyText = styled.div`
+  display: flex;
+  align-items: baseline;
+  gap: 0.375rem;
 `;
 
 const ArrowIconWrapper = styled.div`
   display: flex;
   align-items: center;
   color: ${COLORS.NEUTRAL};
-`;
-
-const RateInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.25rem;
-`;
-
-const RateValue = styled.div`
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: ${COLORS.TEXT_PRIMARY};
-`;
-
-const RateChange = styled.div<{ variant: 'positive' | 'negative' | 'neutral' }>`
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: ${({ variant }) =>
-    variant === 'positive'
-      ? COLORS.SUCCESS
-      : variant === 'negative'
-        ? COLORS.DANGER
-        : COLORS.NEUTRAL};
-`;
-
-const ChangeIndicator = styled.span`
-  font-size: 1rem;
 `;
 
 export default CurrencyCard;

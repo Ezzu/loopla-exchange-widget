@@ -1,5 +1,5 @@
-import styled from '@emotion/styled';
-import type { CurrencyExchangeListProps } from 'types';
+import { useState } from 'react';
+import type { SelectOption } from 'types';
 import { useExchangeRates } from 'hooks';
 import {
   Button,
@@ -9,21 +9,25 @@ import {
   Header,
   InlineError,
   LoadingSpinner,
+  Select,
   Title,
 } from 'components';
 import { EmptyMessage } from '../messages';
-import { COLORS } from 'constants';
+import { CURRENCY_LIST, DEFAULT_TARGET_CURRENCY, type CurrencyCode } from 'constants';
 
-const CurrencyExchangeList = ({
-  baseCurrency = 'GBP',
-  targetCurrencies = ['USD', 'EUR', 'CHF', 'AUD', 'CAD'],
-  refreshInterval,
-}: CurrencyExchangeListProps) => {
+const CurrencyExchangeList = () => {
+  const [targetCurrency, setTargetCurrency] = useState<CurrencyCode>(DEFAULT_TARGET_CURRENCY);
+
+  const handleCurrencyChange = (value: string) => setTargetCurrency(value as CurrencyCode);
+
   const { rates, loading, error, refetch } = useExchangeRates({
-    baseCurrency,
-    targetCurrencies,
-    refreshInterval,
+    baseCurrency: targetCurrency,
   });
+
+  const currencyOptions: SelectOption[] = CURRENCY_LIST.map((currency) => ({
+    value: currency.code,
+    label: `${currency.flag} ${currency.code} - ${currency.name}`,
+  }));
 
   if (loading) {
     return <LoadingSpinner />;
@@ -41,33 +45,29 @@ const CurrencyExchangeList = ({
     <>
       <Header>
         <Title>Exchange Rates</Title>
-        <BaseCurrency>Base: {baseCurrency}</BaseCurrency>
+        <Select
+          label="Convert to:"
+          value={targetCurrency}
+          options={currencyOptions}
+          onChange={handleCurrencyChange}
+        />
       </Header>
 
       <CardContainer>
-        {rates.map(({ currency, rate, change }) => (
+        {rates.map(({ currency, rate }) => (
           <CurrencyCard
             key={currency}
-            fromCurrency={baseCurrency}
-            toCurrency={currency}
+            fromCurrency={currency}
+            toCurrency={targetCurrency}
             rate={rate}
-            change={change}
           />
         ))}
       </CardContainer>
-
       <Footer>
         <Button onClick={refetch}>Refresh Rates</Button>
       </Footer>
     </>
   );
 };
-
-const BaseCurrency = styled.p`
-  margin: 0;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: ${COLORS.TEXT_LIGHT_GRAY};
-`;
 
 export default CurrencyExchangeList;

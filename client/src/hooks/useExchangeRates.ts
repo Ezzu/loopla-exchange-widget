@@ -1,25 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { ExchangeRate } from 'types';
+import type { UseExchangeRatesParams, UseExchangeRatesResult, ExchangeRate } from 'types';
 import { exchangeRatesApi } from 'services';
-
-interface UseExchangeRatesParams {
-  baseCurrency?: string;
-  targetCurrencies?: string[];
-  refreshInterval?: number;
-}
-
-interface UseExchangeRatesResult {
-  rates: ExchangeRate[];
-  loading: boolean;
-  error: string | null;
-  refetch: () => Promise<void>;
-}
+import { DEFAULT_TARGET_CURRENCY, SOURCE_CURRENCIES, REFRESH_INTERVAL } from 'constants';
 
 export const useExchangeRates = ({
-  baseCurrency = 'GBP',
-  targetCurrencies = ['USD', 'EUR', 'CHF', 'AUD', 'CAD'],
-  refreshInterval,
-}: UseExchangeRatesParams): UseExchangeRatesResult => {
+  baseCurrency = DEFAULT_TARGET_CURRENCY,
+  targetCurrencies = SOURCE_CURRENCIES,
+  refreshInterval = REFRESH_INTERVAL,
+}: UseExchangeRatesParams = {}): UseExchangeRatesResult => {
   const [rates, setRates] = useState<ExchangeRate[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

@@ -20,11 +20,7 @@ const CurrencyExchangePage = () => (
 
     <MainContent>
       <Container>
-        <CurrencyExchangeList
-          baseCurrency="GBP"
-          targetCurrencies={['USD', 'EUR', 'CHF', 'AUD', 'CAD']}
-          refreshInterval={60000}
-        />
+        <CurrencyExchangeList />
       </Container>
     </MainContent>
 
