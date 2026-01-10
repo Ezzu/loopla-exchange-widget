@@ -47,8 +47,6 @@ export interface SelectProps {
 }
 
 export interface CurrencyCardProps {
-  fromCurrency: string;
-  toCurrency: string;
+  currency: string;
   rate: number;
-  change?: number;
 }

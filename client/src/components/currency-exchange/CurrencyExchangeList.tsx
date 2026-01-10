@@ -55,12 +55,7 @@ const CurrencyExchangeList = () => {
 
       <CardContainer>
         {rates.map(({ currency, rate }) => (
-          <CurrencyCard
-            key={currency}
-            fromCurrency={currency}
-            toCurrency={targetCurrency}
-            rate={rate}
-          />
+          <CurrencyCard key={currency} currency={currency} rate={rate} />
         ))}
       </CardContainer>
       <Footer>

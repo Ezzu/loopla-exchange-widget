@@ -1,72 +1,66 @@
 import styled from '@emotion/styled';
 import type { CurrencyCardProps } from 'types';
-import { formatCurrencyRate, getCurrencySymbol, getCurrencyFlag } from 'utils';
+import { formatCurrencyRate, getCurrencyFlag } from 'utils';
 import { ArrowRightIcon, Card, Text } from 'components';
 import { COLORS } from 'constants';
 
-const CurrencyCard = ({ fromCurrency, toCurrency, rate }: CurrencyCardProps) => (
+const CurrencyCard = ({ currency, rate }: CurrencyCardProps) => (
   <Card>
-    <CurrencyPair>
-      <CurrencyInfo>
-        <Flag>{getCurrencyFlag(fromCurrency)}</Flag>
-        <CurrencyText>
-          <Text size="md" weight="semibold">
-            {fromCurrency}
-          </Text>
-          <Text size="sm" weight="medium" color={COLORS.TEXT_LIGHT_GRAY}>
-            ({getCurrencySymbol(fromCurrency)})
-          </Text>
-        </CurrencyText>
-      </CurrencyInfo>
+    <CurrencyRow>
+      <LeftSection>
+        <Flag>{getCurrencyFlag(currency)}</Flag>
+        <Text size="md" weight="semibold">
+          {currency}
+        </Text>
+      </LeftSection>
 
-      <ArrowIconWrapper>
+      <CenterSection>
         <ArrowRightIcon size={20} />
-      </ArrowIconWrapper>
+      </CenterSection>
 
-      <CurrencyInfo>
-        <Flag>{getCurrencyFlag(toCurrency)}</Flag>
-        <CurrencyText>
-          <Text size="md" weight="semibold">
-            {formatCurrencyRate(rate)}
-          </Text>
-          <Text size="sm" weight="medium" color={COLORS.TEXT_LIGHT_GRAY}>
-            {toCurrency} ({getCurrencySymbol(toCurrency)})
-          </Text>
-        </CurrencyText>
-      </CurrencyInfo>
-    </CurrencyPair>
+      <RightSection>
+        <Text size="md" weight="semibold">
+          {formatCurrencyRate(rate)}
+        </Text>
+      </RightSection>
+    </CurrencyRow>
   </Card>
 );
 
-const CurrencyPair = styled.div`
+const CurrencyRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+const LeftSection = styled.div`
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  min-width: 120px;
 `;
 
-const CurrencyInfo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-`;
-
-const Flag = styled.span`
-  font-size: 2rem;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-`;
-
-const CurrencyText = styled.div`
-  display: flex;
-  align-items: baseline;
-  gap: 0.375rem;
-`;
-
-const ArrowIconWrapper = styled.div`
+const CenterSection = styled.div`
   display: flex;
   align-items: center;
   color: ${COLORS.NEUTRAL};
+  padding: 0 1rem;
+`;
+
+const RightSection = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 100px;
+  text-align: right;
+`;
+
+const Flag = styled.span`
+  font-size: 1.75rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
 `;
 
 export default CurrencyCard;
