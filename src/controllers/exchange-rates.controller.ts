@@ -12,13 +12,14 @@ export class ExchangeRatesController {
   async getLatestRates(req: Request, res: Response): Promise<void> {
     try {
       const baseCurrency = req.query.base as string | undefined;
+      const forceRefresh = req.query.forceRefresh === 'true';
 
       // Validate base currency is provided
       if (!baseCurrency) {
         throw new ValidationError('Base currency is required');
       }
 
-      const rates = await this.exchangeRatesService.getLatestRates(baseCurrency);
+      const rates = await this.exchangeRatesService.getLatestRates(baseCurrency, forceRefresh);
 
       res.json(rates);
     } catch (error) {

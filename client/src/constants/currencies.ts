@@ -17,5 +17,5 @@ export const DEFAULT_TARGET_CURRENCY: CurrencyCode = 'EUR';
 
 export const SOURCE_CURRENCIES: CurrencyCode[] = ['GBP', 'USD', 'CHF', 'AUD', 'CAD'];
 
-// Refresh interval in milliseconds (2 minute)
-export const REFRESH_INTERVAL = 120000;
+// Refresh interval in milliseconds (10 minutes)
+export const REFRESH_INTERVAL = 600000;

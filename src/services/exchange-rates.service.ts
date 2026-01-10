@@ -5,12 +5,16 @@ import {
   InvalidAccessKeyError,
   MissingAccessKeyError,
 } from 'errors';
+import { CacheService } from 'services';
+import { buildExchangeRatesCacheKey } from 'utils';
 
 export class ExchangeRatesService {
   private readonly baseUrl: string;
   private readonly accessKey: string;
+  private readonly cache: CacheService;
 
   constructor() {
+    this.cache = new CacheService(10); // 10 minutes TTL
     const baseUrl = process.env.EXCHANGE_RATES_BASE_URL;
     const key = process.env.EXCHANGE_RATES_API_KEY;
 
@@ -25,13 +29,19 @@ export class ExchangeRatesService {
     this.accessKey = key;
   }
 
-  async getLatestRates(baseCurrency?: string): Promise<ExchangeRatesResponse> {
+  async getLatestRates(baseCurrency: string, forceRefresh = false): Promise<ExchangeRatesResponse> {
+    const cacheKey = buildExchangeRatesCacheKey(baseCurrency);
+
+    if (!forceRefresh) {
+      const cachedData = this.cache.get<ExchangeRatesResponse>(cacheKey);
+      if (cachedData) {
+        return cachedData;
+      }
+    }
+
     const url = new URL(`${this.baseUrl}/latest`);
     url.searchParams.append('access_key', this.accessKey);
-
-    if (baseCurrency) {
-      url.searchParams.append('base', baseCurrency);
-    }
+    url.searchParams.append('base', baseCurrency);
 
     const response = await fetch(url.toString());
 
@@ -54,8 +64,13 @@ export class ExchangeRatesService {
       throw new ExternalApiError(`HTTP error: ${response.statusText}`);
     }
 
+    const result = data as ExchangeRatesResponse;
+
+    // Cache the result
+    this.cache.set(cacheKey, result);
+
     // Return the success response
-    return data as ExchangeRatesResponse;
+    return result;
   }
 
   private handleApiError(code: string, message: string): never {

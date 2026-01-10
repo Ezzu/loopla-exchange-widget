@@ -3,11 +3,15 @@ import type { ExchangeRatesResponse, ApiErrorResponse } from 'shared';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000';
 
 export const exchangeRatesApi = {
-  getLatestRates: async (baseCurrency?: string): Promise<ExchangeRatesResponse> => {
+  getLatestRates: async (
+    baseCurrency: string,
+    forceRefresh = false
+  ): Promise<ExchangeRatesResponse> => {
     const url = new URL(`${API_BASE_URL}/api/v1/exchange-rates/latest`);
+    url.searchParams.append('base', baseCurrency);
 
-    if (baseCurrency) {
-      url.searchParams.append('base', baseCurrency);
+    if (forceRefresh) {
+      url.searchParams.append('forceRefresh', 'true');
     }
 
     const response = await fetch(url.toString());

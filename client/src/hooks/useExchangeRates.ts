@@ -12,34 +12,37 @@ export const useExchangeRates = ({
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchRates = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
+  const fetchRates = useCallback(
+    async (forceRefresh = false) => {
+      try {
+        setLoading(true);
+        setError(null);
 
-      const response = await exchangeRatesApi.getLatestRates(baseCurrency);
+        const response = await exchangeRatesApi.getLatestRates(baseCurrency, forceRefresh);
 
-      const exchangeRates: ExchangeRate[] = targetCurrencies
-        .map((currency) => ({
-          currency,
-          rate: response.rates[currency] || 0,
-        }))
-        .filter((rate) => rate.rate > 0);
+        const exchangeRates: ExchangeRate[] = targetCurrencies
+          .map((currency) => ({
+            currency,
+            rate: response.rates[currency] || 0,
+          }))
+          .filter((rate) => rate.rate > 0);
 
-      setRates(exchangeRates);
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to fetch exchange rates';
-      setError(message);
-    } finally {
-      setLoading(false);
-    }
-  }, [baseCurrency, targetCurrencies]);
+        setRates(exchangeRates);
+      } catch (err) {
+        const message = err instanceof Error ? err.message : 'Failed to fetch exchange rates';
+        setError(message);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [baseCurrency, targetCurrencies]
+  );
 
   useEffect(() => {
     fetchRates();
 
     if (refreshInterval && refreshInterval > 0) {
-      const interval = setInterval(fetchRates, refreshInterval);
+      const interval = setInterval(() => fetchRates(true), refreshInterval);
       return () => clearInterval(interval);
     }
   }, [baseCurrency, targetCurrencies, refreshInterval, fetchRates]);

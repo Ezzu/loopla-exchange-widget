@@ -11,5 +11,5 @@ export interface UseExchangeRatesResult {
   rates: ExchangeRate[];
   loading: boolean;
   error: string | null;
-  refetch: () => Promise<void>;
+  refetch: (forceRefresh?: boolean) => Promise<void>;
 }

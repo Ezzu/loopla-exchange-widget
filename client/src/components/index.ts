@@ -7,3 +7,4 @@ export * from './forms';
 export * from './icons';
 export * from './loaders';
 export * from './typography';
+export * from './messages';

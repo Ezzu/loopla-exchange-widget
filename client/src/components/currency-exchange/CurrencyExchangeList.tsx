@@ -11,8 +11,8 @@ import {
   LoadingSpinner,
   Select,
   Title,
+  EmptyMessage,
 } from 'components';
-import { EmptyMessage } from '../messages';
 import { CURRENCY_LIST, DEFAULT_TARGET_CURRENCY, type CurrencyCode } from 'constants';
 
 const CurrencyExchangeList = () => {
@@ -59,7 +59,7 @@ const CurrencyExchangeList = () => {
         ))}
       </CardContainer>
       <Footer>
-        <Button onClick={refetch}>Refresh Rates</Button>
+        <Button onClick={() => refetch(true)}>Refresh Rates</Button>
       </Footer>
     </>
   );

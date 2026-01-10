@@ -52,7 +52,7 @@ describe('ExchangeRatesController', () => {
 
       await controller.getLatestRates(mockRequest as Request, mockResponse as Response);
 
-      expect(mockService.getLatestRates).toHaveBeenCalledWith('USD');
+      expect(mockService.getLatestRates).toHaveBeenCalledWith('USD', false);
       expect(mockResponse.json).toHaveBeenCalledWith(mockRates);
     });
 
