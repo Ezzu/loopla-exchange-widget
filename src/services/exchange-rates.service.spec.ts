@@ -52,9 +52,7 @@ describe('ExchangeRatesService', () => {
       expect(fetch).toHaveBeenCalledWith(
         expect.stringContaining('https://api.exchangeratesapi.io/v1/latest')
       );
-      expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining('access_key=test-api-key')
-      );
+      expect(fetch).toHaveBeenCalledWith(expect.stringContaining('access_key=test-api-key'));
       expect(result).toEqual(mockResponse);
     });
 
@@ -76,9 +74,7 @@ describe('ExchangeRatesService', () => {
 
       const result = await service.getLatestRates('USD');
 
-      expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining('base=USD')
-      );
+      expect(fetch).toHaveBeenCalledWith(expect.stringContaining('base=USD'));
       expect(result).toEqual(mockResponse);
     });
 
@@ -87,12 +83,11 @@ describe('ExchangeRatesService', () => {
         Promise.resolve({
           ok: false,
           statusText: 'Unauthorized',
+          json: () => Promise.reject(new Error('Invalid JSON')),
         })
       ) as jest.Mock;
 
-      await expect(service.getLatestRates()).rejects.toThrow(
-        'Failed to fetch exchange rates: Unauthorized'
-      );
+      await expect(service.getLatestRates()).rejects.toThrow('HTTP error: Unauthorized');
     });
   });
 });

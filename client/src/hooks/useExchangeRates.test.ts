@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
+import type { ExchangeRatesResponse } from 'shared';
 import { useExchangeRates } from './useExchangeRates';
 import * as exchangeRatesService from 'services';
 
@@ -10,7 +11,7 @@ vi.mock('services', () => ({
 }));
 
 describe('useExchangeRates', () => {
-  const mockRatesResponse = {
+  const mockRatesResponse: ExchangeRatesResponse = {
     success: true,
     timestamp: 1768049047,
     base: 'EUR',

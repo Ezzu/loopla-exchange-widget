@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import type { ExchangeRatesResponse } from 'shared';
 import { ExchangeRatesController } from 'controllers';
 import { ExchangeRatesService } from 'services';
 
@@ -25,25 +26,20 @@ describe('ExchangeRatesController', () => {
   });
 
   describe('getLatestRates', () => {
-    it('should return exchange rates successfully without base currency', async () => {
-      const mockRates = {
-        success: true,
-        timestamp: 1609459200,
-        base: 'EUR',
-        date: '2021-01-01',
-        rates: { USD: 1.22, GBP: 0.9 },
-      };
-
-      mockService.getLatestRates.mockResolvedValue(mockRates);
-
+    it('should return 400 error when base currency is not provided', async () => {
       await controller.getLatestRates(mockRequest as Request, mockResponse as Response);
 
-      expect(mockService.getLatestRates).toHaveBeenCalledWith(undefined);
-      expect(mockResponse.json).toHaveBeenCalledWith(mockRates);
+      expect(mockResponse.status).toHaveBeenCalledWith(400);
+      expect(mockResponse.json).toHaveBeenCalledWith({
+        error: {
+          message: 'Base currency is required',
+          code: 'validation_error',
+        },
+      });
     });
 
     it('should return exchange rates successfully with base currency', async () => {
-      const mockRates = {
+      const mockRates: ExchangeRatesResponse = {
         success: true,
         timestamp: 1609459200,
         base: 'USD',
@@ -61,23 +57,31 @@ describe('ExchangeRatesController', () => {
     });
 
     it('should handle service errors', async () => {
+      mockRequest.query = { base: 'USD' };
       const errorMessage = 'API connection failed';
       mockService.getLatestRates.mockRejectedValue(new Error(errorMessage));
 
       await controller.getLatestRates(mockRequest as Request, mockResponse as Response);
 
       expect(mockResponse.status).toHaveBeenCalledWith(500);
-      expect(mockResponse.json).toHaveBeenCalledWith({ error: errorMessage });
+      expect(mockResponse.json).toHaveBeenCalledWith({
+        error: {
+          message: errorMessage,
+        },
+      });
     });
 
     it('should handle unknown errors', async () => {
+      mockRequest.query = { base: 'USD' };
       mockService.getLatestRates.mockRejectedValue('Unknown error');
 
       await controller.getLatestRates(mockRequest as Request, mockResponse as Response);
 
       expect(mockResponse.status).toHaveBeenCalledWith(500);
-      expect(mockResponse.json).toHaveBeenCalledWith({ 
-        error: 'Failed to fetch exchange rates' 
+      expect(mockResponse.json).toHaveBeenCalledWith({
+        error: {
+          message: 'An unexpected error occurred',
+        },
       });
     });
   });

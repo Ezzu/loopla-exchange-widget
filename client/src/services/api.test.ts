@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import type { ExchangeRatesResponse } from 'shared';
 import { exchangeRatesApi } from './api';
 
 describe('exchangeRatesApi', () => {
@@ -8,7 +9,7 @@ describe('exchangeRatesApi', () => {
 
   describe('getLatestRates', () => {
     it('should fetch exchange rates without base currency', async () => {
-      const mockResponse = {
+      const mockResponse: ExchangeRatesResponse = {
         success: true,
         timestamp: 1768049047,
         base: 'EUR',
@@ -34,7 +35,7 @@ describe('exchangeRatesApi', () => {
     });
 
     it('should fetch exchange rates with base currency', async () => {
-      const mockResponse = {
+      const mockResponse: ExchangeRatesResponse = {
         success: true,
         timestamp: 1768049047,
         base: 'USD',
@@ -57,14 +58,20 @@ describe('exchangeRatesApi', () => {
     });
 
     it('should throw error when fetch fails', async () => {
+      const mockErrorResponse = {
+        error: {
+          message: 'Invalid API access key',
+          code: 'invalid_access_key',
+        },
+      };
+
       globalThis.fetch = vi.fn().mockResolvedValue({
         ok: false,
-        statusText: 'Internal Server Error',
+        statusText: 'Bad Gateway',
+        json: async () => mockErrorResponse,
       });
 
-      await expect(exchangeRatesApi.getLatestRates()).rejects.toThrow(
-        'Failed to fetch exchange rates: Internal Server Error'
-      );
+      await expect(exchangeRatesApi.getLatestRates()).rejects.toThrow('Invalid API access key');
     });
 
     it('should handle network errors', async () => {
