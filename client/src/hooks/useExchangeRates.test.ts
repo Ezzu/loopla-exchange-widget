@@ -66,7 +66,7 @@ describe('useExchangeRates', () => {
       expect(result.current.loading).toBe(false);
     });
 
-    expect(exchangeRatesService.exchangeRatesApi.getLatestRates).toHaveBeenCalledWith('USD');
+    expect(exchangeRatesService.exchangeRatesApi.getLatestRates).toHaveBeenCalledWith('USD', false);
     expect(result.current.rates.length).toBeGreaterThan(0);
   });
 

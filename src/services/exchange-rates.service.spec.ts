@@ -47,7 +47,7 @@ describe('ExchangeRatesService', () => {
         })
       ) as jest.Mock;
 
-      const result = await service.getLatestRates();
+      const result = await service.getLatestRates('EUR', false);
 
       expect(fetch).toHaveBeenCalledWith(
         expect.stringContaining('https://api.exchangeratesapi.io/v1/latest')
@@ -87,7 +87,9 @@ describe('ExchangeRatesService', () => {
         })
       ) as jest.Mock;
 
-      await expect(service.getLatestRates()).rejects.toThrow('HTTP error: Unauthorized');
+      await expect(service.getLatestRates('EUR', false)).rejects.toThrow(
+        'HTTP error: Unauthorized'
+      );
     });
   });
 });
