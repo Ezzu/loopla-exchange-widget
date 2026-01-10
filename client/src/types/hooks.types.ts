@@ -12,4 +12,5 @@ export interface UseExchangeRatesResult {
   loading: boolean;
   error: string | null;
   refetch: (forceRefresh?: boolean) => Promise<void>;
+  lastUpdated: number | null;
 }

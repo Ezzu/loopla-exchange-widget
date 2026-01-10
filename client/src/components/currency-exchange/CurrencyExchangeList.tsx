@@ -11,16 +11,19 @@ import {
   LoadingSpinner,
   Select,
   Title,
+  Text,
   EmptyMessage,
+  MainContent,
 } from 'components';
-import { CURRENCY_LIST, DEFAULT_TARGET_CURRENCY, type CurrencyCode } from 'constants';
+import { CURRENCY_LIST, DEFAULT_TARGET_CURRENCY, COLORS, type CurrencyCode } from 'constants';
+import { getTimeAgo } from 'utils';
 
 const CurrencyExchangeList = () => {
   const [targetCurrency, setTargetCurrency] = useState<CurrencyCode>(DEFAULT_TARGET_CURRENCY);
 
   const handleCurrencyChange = (value: string) => setTargetCurrency(value as CurrencyCode);
 
-  const { rates, loading, error, refetch } = useExchangeRates({
+  const { rates, loading, error, refetch, lastUpdated } = useExchangeRates({
     baseCurrency: targetCurrency,
   });
 
@@ -60,6 +63,13 @@ const CurrencyExchangeList = () => {
       </CardContainer>
       <Footer>
         <Button onClick={() => refetch(true)}>Refresh Rates</Button>
+        <MainContent>
+          {lastUpdated && (
+            <Text size="sm" color={COLORS.TEXT_GRAY}>
+              Last updated: {getTimeAgo(lastUpdated)}
+            </Text>
+          )}
+        </MainContent>
       </Footer>
     </>
   );

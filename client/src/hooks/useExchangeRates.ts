@@ -11,6 +11,7 @@ export const useExchangeRates = ({
   const [rates, setRates] = useState<ExchangeRate[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<number | null>(null);
 
   const fetchRates = useCallback(
     async (forceRefresh = false) => {
@@ -28,6 +29,7 @@ export const useExchangeRates = ({
           .filter((rate) => rate.rate > 0);
 
         setRates(exchangeRates);
+        setLastUpdated(response.timestamp);
       } catch (err) {
         const message = err instanceof Error ? err.message : 'Failed to fetch exchange rates';
         setError(message);
@@ -52,5 +54,6 @@ export const useExchangeRates = ({
     loading,
     error,
     refetch: fetchRates,
+    lastUpdated,
   };
 };
