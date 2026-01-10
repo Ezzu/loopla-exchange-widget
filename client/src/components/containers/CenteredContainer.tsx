@@ -1,0 +1,12 @@
+import styled from '@emotion/styled';
+
+const CenteredContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  gap: 1rem;
+`;
+
+export default CenteredContainer;
