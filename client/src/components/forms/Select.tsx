@@ -1,8 +1,9 @@
+import { memo } from 'react';
 import styled from '@emotion/styled';
 import type { SelectProps } from 'types';
 import { COLORS } from 'constants';
 
-const Select = ({ value, options, onChange, label }: SelectProps) => (
+const Select = memo(({ value, options, onChange, label }: SelectProps) => (
   <SelectWrapper>
     {label && <Label>{label}</Label>}
     <StyledSelect value={value} onChange={(e) => onChange(e.target.value)}>
@@ -13,7 +14,9 @@ const Select = ({ value, options, onChange, label }: SelectProps) => (
       ))}
     </StyledSelect>
   </SelectWrapper>
-);
+));
+
+Select.displayName = 'Select';
 
 const SelectWrapper = styled.div`
   display: flex;

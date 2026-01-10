@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import type { SelectOption } from 'types';
+import { useState, useMemo, useCallback } from 'react';
 import { useExchangeRates } from 'hooks';
 import {
   Button,
@@ -21,16 +20,23 @@ import { getTimeAgo } from 'utils';
 const CurrencyExchangeList = () => {
   const [targetCurrency, setTargetCurrency] = useState<CurrencyCode>(DEFAULT_TARGET_CURRENCY);
 
-  const handleCurrencyChange = (value: string) => setTargetCurrency(value as CurrencyCode);
+  const handleCurrencyChange = useCallback(
+    (value: string) => setTargetCurrency(value as CurrencyCode),
+    []
+  );
 
   const { rates, loading, error, refetch, lastUpdated } = useExchangeRates({
     baseCurrency: targetCurrency,
   });
 
-  const currencyOptions: SelectOption[] = CURRENCY_LIST.map((currency) => ({
-    value: currency.code,
-    label: `${currency.flag} ${currency.code} - ${currency.name}`,
-  }));
+  const currencyOptions = useMemo(
+    () =>
+      CURRENCY_LIST.map((currency) => ({
+        value: currency.code,
+        label: `${currency.flag} ${currency.code} - ${currency.name}`,
+      })),
+    []
+  );
 
   if (loading) {
     return <LoadingSpinner />;

@@ -1,10 +1,11 @@
+import { memo } from 'react';
 import styled from '@emotion/styled';
 import type { CurrencyCardProps } from 'types';
 import { formatCurrencyRate, getCurrencyFlag } from 'utils';
 import { ArrowRightIcon, Card, Text } from 'components';
 import { COLORS } from 'constants';
 
-const CurrencyCard = ({ currency, rate }: CurrencyCardProps) => (
+const CurrencyCard = memo(({ currency, rate }: CurrencyCardProps) => (
   <Card>
     <CurrencyRow>
       <LeftSection>
@@ -25,7 +26,9 @@ const CurrencyCard = ({ currency, rate }: CurrencyCardProps) => (
       </RightSection>
     </CurrencyRow>
   </Card>
-);
+));
+
+CurrencyCard.displayName = 'CurrencyCard';
 
 const CurrencyRow = styled.div`
   display: flex;
