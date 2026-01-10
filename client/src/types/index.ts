@@ -1,1 +1,2 @@
-export * from './exchange.types';
+export * from './component-props.types';
+export * from './domain.types';

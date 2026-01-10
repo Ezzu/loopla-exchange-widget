@@ -1,8 +1,5 @@
 import styled from '@emotion/styled';
-
-interface FooterTextProps {
-  color?: string;
-}
+import type { FooterTextProps } from 'types';
 
 const FooterText = styled.p<FooterTextProps>`
   margin: 0;

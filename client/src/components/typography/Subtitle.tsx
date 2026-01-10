@@ -1,8 +1,5 @@
 import styled from '@emotion/styled';
-
-interface SubtitleProps {
-  color?: string;
-}
+import type { SubtitleProps } from 'types';
 
 const Subtitle = styled.p<SubtitleProps>`
   margin: 0;

@@ -1,9 +1,5 @@
 import { DangerButton, ErrorContainer, ErrorText } from 'components';
-
-interface InlineErrorProps {
-  error: string;
-  onRetry: () => void;
-}
+import type { InlineErrorProps } from 'types';
 
 const InlineError = ({ error, onRetry }: InlineErrorProps) => (
   <ErrorContainer>

@@ -1,9 +1,6 @@
 import styled from '@emotion/styled';
 import { COLORS } from 'constants';
-
-interface TitleProps {
-  color?: string;
-}
+import type { TitleProps } from 'types';
 
 const Title = styled.h2<TitleProps>`
   margin: 0 0 0.5rem 0;
