@@ -1,5 +1,6 @@
 import 'dotenv/config';
-import app from "./app";
+import app from './app';
+import { logger } from 'utils';
 
 const PORT = process.env.PORT || 3000;
 
@@ -8,5 +9,8 @@ app.get('/health', (_, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  logger.info('Server started successfully', {
+    port: PORT,
+    environment: process.env.NODE_ENV || 'development',
+  });
 });

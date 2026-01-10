@@ -6,15 +6,17 @@ import {
   MissingAccessKeyError,
 } from 'errors';
 import { CacheService } from 'services';
-import { buildExchangeRatesCacheKey } from 'utils';
+import { buildExchangeRatesCacheKey, createLogger } from 'utils';
 
 export class ExchangeRatesService {
   private readonly baseUrl: string;
   private readonly accessKey: string;
   private readonly cache: CacheService;
+  private readonly logger;
 
   constructor() {
-    this.cache = new CacheService(10); // 10 minutes TTL
+    this.logger = createLogger('ExchangeRatesService');
+    this.cache = new CacheService(10);
     const baseUrl = process.env.EXCHANGE_RATES_BASE_URL;
     const key = process.env.EXCHANGE_RATES_API_KEY;
 
@@ -32,12 +34,17 @@ export class ExchangeRatesService {
   async getLatestRates(baseCurrency: string, forceRefresh = false): Promise<ExchangeRatesResponse> {
     const cacheKey = buildExchangeRatesCacheKey(baseCurrency);
 
+    this.logger.info('Fetching exchange rates', { baseCurrency, forceRefresh });
+
     if (!forceRefresh) {
       const cachedData = this.cache.get<ExchangeRatesResponse>(cacheKey);
       if (cachedData) {
+        this.logger.info('Cache hit', { baseCurrency });
         return cachedData;
       }
     }
+
+    this.logger.info('Cache miss, fetching from external API', { baseCurrency });
 
     const url = new URL(`${this.baseUrl}/latest`);
     url.searchParams.append('access_key', this.accessKey);
@@ -50,26 +57,36 @@ export class ExchangeRatesService {
     try {
       data = await response.json();
     } catch (error) {
-      // If JSON parsing fails, throw with HTTP status
+      this.logger.error('Failed to parse JSON response', { baseCurrency, error });
       throw new ExternalApiError(`HTTP error: ${response.statusText}`);
     }
 
-    // Check if the API returned an error response
     if (data.error) {
+      this.logger.error('External API returned error', {
+        baseCurrency,
+        errorCode: data.error.code,
+        errorMessage: data.error.message,
+      });
       this.handleApiError(data.error.code, data.error.message);
     }
 
-    // Check HTTP status as fallback
     if (!response.ok) {
+      this.logger.error('HTTP error from external API', {
+        baseCurrency,
+        status: response.status,
+        statusText: response.statusText,
+      });
       throw new ExternalApiError(`HTTP error: ${response.statusText}`);
     }
 
     const result = data as ExchangeRatesResponse;
 
-    // Cache the result
     this.cache.set(cacheKey, result);
+    this.logger.info('Exchange rates cached successfully', {
+      baseCurrency,
+      ratesCount: Object.keys(result.rates).length,
+    });
 
-    // Return the success response
     return result;
   }
 
