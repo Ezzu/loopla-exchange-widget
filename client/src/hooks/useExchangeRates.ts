@@ -47,7 +47,7 @@ export const useExchangeRates = ({
       const interval = setInterval(() => fetchRates(true), refreshInterval);
       return () => clearInterval(interval);
     }
-  }, [baseCurrency, targetCurrencies, refreshInterval, fetchRates]);
+  }, [refreshInterval, fetchRates]);
 
   return {
     rates,

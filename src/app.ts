@@ -6,9 +6,12 @@ import { swaggerSpec } from 'config';
 
 const app = express();
 
-app.use(cors({
-  origin: process.env.ALLOWED_ORIGINS?.split(',') || [],
-}));
+app.use(
+  cors({
+    origin: process.env.ALLOWED_ORIGINS?.split(',') || [],
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 
