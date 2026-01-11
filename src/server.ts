@@ -2,7 +2,7 @@ import 'dotenv/config';
 import app from './app';
 import { logger } from 'utils';
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 app.get('/health', (_, res) => {
   res.status(200).send('API is healthy!');
