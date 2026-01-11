@@ -1,10 +1,13 @@
+import { FormattedMessage } from 'react-intl';
 import { DangerButton, ErrorContainer, ErrorText } from 'components';
 import type { InlineErrorProps } from 'types';
 
 const InlineError = ({ error, onRetry }: InlineErrorProps) => (
   <ErrorContainer>
     <ErrorText>{error}</ErrorText>
-    <DangerButton onClick={onRetry}>Retry</DangerButton>
+    <DangerButton onClick={onRetry}>
+      <FormattedMessage id="error.tryAgain" />
+    </DangerButton>
   </ErrorContainer>
 );
 

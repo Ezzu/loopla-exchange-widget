@@ -11,6 +11,7 @@ export default defineConfig({
       constants: path.resolve(__dirname, 'src/constants/index.ts'),
       hocs: path.resolve(__dirname, 'src/hocs/index.ts'),
       hooks: path.resolve(__dirname, 'src/hooks/index.ts'),
+      i18n: path.resolve(__dirname, 'src/i18n/index.ts'),
       pages: path.resolve(__dirname, 'src/pages/index.ts'),
       services: path.resolve(__dirname, 'src/services/index.ts'),
       shared: path.resolve(__dirname, '../shared/index.ts'),

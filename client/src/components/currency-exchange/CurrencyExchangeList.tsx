@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useExchangeRates } from 'hooks';
 import {
   Button,
@@ -18,6 +19,7 @@ import { CURRENCY_LIST, DEFAULT_TARGET_CURRENCY, COLORS, type CurrencyCode } fro
 import { getTimeAgo } from 'utils';
 
 const CurrencyExchangeList = () => {
+  const intl = useIntl();
   const [targetCurrency, setTargetCurrency] = useState<CurrencyCode>(DEFAULT_TARGET_CURRENCY);
 
   const handleCurrencyChange = useCallback(
@@ -47,15 +49,21 @@ const CurrencyExchangeList = () => {
   }
 
   if (rates.length === 0) {
-    return <EmptyMessage>No exchange rates available</EmptyMessage>;
+    return (
+      <EmptyMessage>
+        <FormattedMessage id="exchangeRates.noRates" />
+      </EmptyMessage>
+    );
   }
 
   return (
     <>
       <Header>
-        <Title>Exchange Rates</Title>
+        <Title>
+          <FormattedMessage id="exchangeRates.title" />
+        </Title>
         <Select
-          label="Convert to:"
+          label={intl.formatMessage({ id: 'exchangeRates.convertTo' })}
           value={targetCurrency}
           options={currencyOptions}
           onChange={handleCurrencyChange}
@@ -68,11 +76,16 @@ const CurrencyExchangeList = () => {
         ))}
       </CardContainer>
       <Footer>
-        <Button onClick={() => refetch(true)}>Refresh Rates</Button>
+        <Button onClick={() => refetch(true)}>
+          <FormattedMessage id="exchangeRates.refreshButton" />
+        </Button>
         <MainContent>
           {lastUpdated && (
             <Text size="sm" color={COLORS.TEXT_GRAY}>
-              Last updated: {getTimeAgo(lastUpdated)}
+              <FormattedMessage
+                id="exchangeRates.lastUpdated"
+                values={{ time: getTimeAgo(lastUpdated) }}
+              />
             </Text>
           )}
         </MainContent>

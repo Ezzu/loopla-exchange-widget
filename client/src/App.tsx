@@ -1,6 +1,7 @@
 import { Global, css } from '@emotion/react';
 import { CurrencyExchangePage } from 'pages';
 import { COLORS } from 'constants';
+import { IntlProvider } from 'i18n';
 
 const globalStyles = css`
   * {
@@ -22,10 +23,10 @@ const globalStyles = css`
 
 export function App() {
   return (
-    <>
+    <IntlProvider>
       <Global styles={globalStyles} />
       <CurrencyExchangePage />
-    </>
+    </IntlProvider>
   );
 }
 

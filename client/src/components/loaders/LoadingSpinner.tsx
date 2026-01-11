@@ -1,9 +1,12 @@
+import { FormattedMessage } from 'react-intl';
 import { CenteredContainer, LoadingText, Spinner } from 'components';
 
 const LoadingSpinner = () => (
   <CenteredContainer>
     <Spinner />
-    <LoadingText>Loading exchange rates...</LoadingText>
+    <LoadingText>
+      <FormattedMessage id="loading.text" />
+    </LoadingText>
   </CenteredContainer>
 );
 

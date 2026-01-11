@@ -1,3 +1,4 @@
+import { FormattedMessage } from 'react-intl';
 import {
   Container,
   CurrencyExchangeList,
@@ -14,8 +15,12 @@ import { COLORS } from 'constants';
 const CurrencyExchangePage = () => (
   <PageWrapper>
     <Header>
-      <Title color={COLORS.TEXT_WHITE}>Loopla Exchange Widget</Title>
-      <Subtitle color={COLORS.TEXT_WHITE}>Real-time currency exchange rates</Subtitle>
+      <Title color={COLORS.TEXT_WHITE}>
+        <FormattedMessage id="app.title" />
+      </Title>
+      <Subtitle color={COLORS.TEXT_WHITE}>
+        <FormattedMessage id="app.subtitle" />
+      </Subtitle>
     </Header>
 
     <MainContent>
@@ -25,7 +30,9 @@ const CurrencyExchangePage = () => (
     </MainContent>
 
     <Footer>
-      <FooterText color={COLORS.TEXT_WHITE}>Powered by Exchange Rates API</FooterText>
+      <FooterText color={COLORS.TEXT_WHITE}>
+        <FormattedMessage id="app.footer" />
+      </FooterText>
     </Footer>
   </PageWrapper>
 );
