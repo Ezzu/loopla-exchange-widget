@@ -567,6 +567,9 @@ curl 'http://localhost:4000/api/v1/exchange-rates/latest?base=EUR'
    - No multi-region deployment
    - Latency depends on user location
 
+7. **Language Support**
+   - Not able to change language dynamically
+
 ---
 
 ## 🚀 Future Enhancements
@@ -584,6 +587,7 @@ curl 'http://localhost:4000/api/v1/exchange-rates/latest?base=EUR'
 - [ ] Extensive testing across frontend and backend code
 - [ ] Level up the logging using out of box solutions like Wingston etc
 - [ ] Advanced error handling with stacktraces
+- [ ] Global language change support
 
 ---
 
