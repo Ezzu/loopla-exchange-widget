@@ -4,8 +4,8 @@ services:
       context: .
       target: ${BUILD_TARGET:-development}
     container_name: loopla-backend
-    expose:
-      - "4000"
+    ports:
+      - "${BACKEND_PORT:-4000}:4000"
     volumes:
       # Mount source code for hot reload in development
       # In production, set ENABLE_VOLUMES=false to disable
@@ -25,31 +25,26 @@ services:
     build:
       context: .
       dockerfile: client/Dockerfile
-      target: build
-    container_name: loopla-frontend-build
-    volumes:
-      - frontend-dist:/app/dist
-    command: sh -c "cp -r /app/dist/* /app/dist/"
-    networks:
-      - loopla-network
-
-  nginx:
-    image: nginx:alpine
-    container_name: loopla-nginx
+      target: ${BUILD_TARGET:-development}
+    container_name: loopla-frontend
     ports:
-      - "${NGINX_PORT:-80}:80"
+      - "${FRONTEND_PORT:-5173}:5173"
     volumes:
-      - ./nginx-proxy.conf:/etc/nginx/conf.d/default.conf
-      - frontend-dist:/usr/share/nginx/html
+      # Mount source code for hot reload in development
+      - ./client/src:/app/src
+      - ./client/public:/app/public
+      - ./shared:/app/shared
+      - /app/node_modules
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:4000}
+    env_file:
+      - ./client/.env
     restart: unless-stopped
     depends_on:
       - backend
-      - frontend
     networks:
       - loopla-network
-
-volumes:
-  frontend-dist:
 
 networks:
   loopla-network:

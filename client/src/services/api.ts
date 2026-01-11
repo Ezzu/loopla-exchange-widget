@@ -1,12 +1,13 @@
 import type { ExchangeRatesResponse, ApiErrorResponse } from 'shared';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000';
+
 export const exchangeRatesApi = {
   getLatestRates: async (
     baseCurrency: string,
     forceRefresh = false
   ): Promise<ExchangeRatesResponse> => {
-    // Use relative URL - nginx proxy handles routing to backend
-    const url = new URL('/api/v1/exchange-rates/latest', window.location.origin);
+    const url = new URL(`${API_BASE_URL}/api/v1/exchange-rates/latest`);
     url.searchParams.append('base', baseCurrency);
 
     if (forceRefresh) {
