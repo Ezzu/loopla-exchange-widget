@@ -59,9 +59,7 @@ Loopla Exchange Widget is a full-stack application that provides real-time curre
 
 ### Demo Video
 
-https://github.com/user-attachments/assets/10o9Nl0nJvohNUzIUvtDwstWwhGbda4-e
-
-> **Note:** For best viewing experience, you can also watch the full demo on [Google Drive](https://drive.google.com/file/d/10o9Nl0nJvohNUzIUvtDwstWwhGbda4-e/view?usp=sharing)
+https://drive.google.com/file/d/10o9Nl0nJvohNUzIUvtDwstWwhGbda4-e/view?usp=sharing
 
 ---
 
