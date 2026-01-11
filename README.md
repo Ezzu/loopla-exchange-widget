@@ -52,14 +52,16 @@ Loopla Exchange Widget is a full-stack application that provides real-time curre
 
 ### Web & Mobile Views
 
-|                                               Desktop View                                                |                                               Mobile View                                                |
-| :-------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------: |
-| ![Desktop Preview](https://drive.google.com/file/d/1hAL7uzHswUEZC6Qt8MJUwms3HIhEbzad/view?usp=drive_link) | ![Mobile Preview](https://drive.google.com/file/d/18b9LOCEAjyNjJqTphNKvaUhbNM8Y5fEy/view?usp=drive_link) |
-|                                         Full layout with sidebar                                          |                                         Optimized single column                                          |
+|                                                        Desktop View                                                         |                                                        Mobile View                                                         |
+| :-------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://drive.google.com/uc?export=view&id=1hAL7uzHswUEZC6Qt8MJUwms3HIhEbzad" alt="Desktop Preview" width="400"/> | <img src="https://drive.google.com/uc?export=view&id=18b9LOCEAjyNjJqTphNKvaUhbNM8Y5fEy" alt="Mobile Preview" width="200"/> |
+|                                                  Full layout with sidebar                                                   |                                                  Optimized single column                                                   |
 
 ### Demo Video
 
-![Demo Video](https://drive.google.com/file/d/10o9Nl0nJvohNUzIUvtDwstWwhGbda4-e/view?usp=sharing)
+https://github.com/user-attachments/assets/10o9Nl0nJvohNUzIUvtDwstWwhGbda4-e
+
+> **Note:** For best viewing experience, you can also watch the full demo on [Google Drive](https://drive.google.com/file/d/10o9Nl0nJvohNUzIUvtDwstWwhGbda4-e/view?usp=sharing)
 
 ---
 
