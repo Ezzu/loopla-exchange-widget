@@ -52,14 +52,14 @@ Loopla Exchange Widget is a full-stack application that provides real-time curre
 
 ### Web & Mobile Views
 
-|                 Desktop View                 |                Mobile View                 |
-| :------------------------------------------: | :----------------------------------------: | ----------------------- |
-| ![Desktop Preview](docs/desktop-preview.gif) | ![Mobile Preview](docs/mobile-preview.gif) |
-|           Full layout with sidebar           |           Responsive grid layout           | Optimized single column |
+|                                               Desktop View                                                |                                               Mobile View                                                |
+| :-------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------: |
+| ![Desktop Preview](https://drive.google.com/file/d/1hAL7uzHswUEZC6Qt8MJUwms3HIhEbzad/view?usp=drive_link) | ![Mobile Preview](https://drive.google.com/file/d/18b9LOCEAjyNjJqTphNKvaUhbNM8Y5fEy/view?usp=drive_link) |
+|                                         Full layout with sidebar                                          |                                         Optimized single column                                          |
 
 ### Demo Video
 
-![Demo Video](docs/demo.mp4)
+![Demo Video](https://drive.google.com/file/d/10o9Nl0nJvohNUzIUvtDwstWwhGbda4-e/view?usp=sharing)
 
 ---
 
