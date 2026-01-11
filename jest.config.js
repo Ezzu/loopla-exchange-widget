@@ -12,6 +12,7 @@ module.exports = {
     '^config$': '<rootDir>/src/config/index.ts',
     '^types$': '<rootDir>/src/types/index.ts',
     '^utils$': '<rootDir>/src/utils/index.ts',
+    '^shared$': '<rootDir>/shared/index.ts',
   },
   collectCoverageFrom: [
     'src/**/*.ts',
