@@ -171,9 +171,17 @@ npm run dev
 
 ### Access the Application
 
+**Local Development:**
+
 - **Frontend:** http://localhost:5173
 - **Backend API:** http://localhost:4000
 - **API Documentation:** http://localhost:4000/api-docs
+
+**Live Deployment (Railway):**
+
+- **Frontend:** https://ideal-dream-production.up.railway.app
+- **Backend API:** https://loopla-exchange-widget-production.up.railway.app/api/v1
+- **API Documentation:** https://loopla-exchange-widget-production.up.railway.app/api-docs
 
 If you encounter any issues during installation or startup, please refer to the [Troubleshooting](#-troubleshooting) section for common problems and solutions.
 
