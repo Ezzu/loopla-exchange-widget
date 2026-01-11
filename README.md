@@ -175,6 +175,8 @@ npm run dev
 - **Backend API:** http://localhost:4000
 - **API Documentation:** http://localhost:4000/api-docs
 
+If you encounter any issues during installation or startup, please refer to the [Troubleshooting](#-troubleshooting) section for common problems and solutions.
+
 ---
 
 ## 🧪 Testing
