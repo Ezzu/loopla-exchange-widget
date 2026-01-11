@@ -1,0 +1,52 @@
+services:
+  backend:
+    build:
+      context: .
+      target: ${BUILD_TARGET:-development}
+    container_name: loopla-backend
+    ports:
+      - "${BACKEND_PORT:-4000}:4000"
+    volumes:
+      # Mount source code for hot reload in development
+      # In production, set ENABLE_VOLUMES=false to disable
+      - ${ENABLE_VOLUMES:-./src}:/app/src
+      - ${ENABLE_VOLUMES:-./shared}:/app/shared
+      - /app/node_modules
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - PORT=4000
+    env_file:
+      - .env
+    restart: unless-stopped
+    networks:
+      - loopla-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+      target: ${BUILD_TARGET:-development}
+    container_name: loopla-frontend
+    ports:
+      - "${FRONTEND_PORT:-5173}:${FRONTEND_PORT_INTERNAL:-5173}"
+    volumes:
+      # Mount source code for hot reload in development
+      # In production, set ENABLE_VOLUMES=false to disable
+      - ${ENABLE_VOLUMES:-./client/src}:/app/src
+      - ${ENABLE_VOLUMES:-./client/public}:/app/public
+      - ${ENABLE_VOLUMES:-./shared}:/app/shared
+      - /app/node_modules
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - VITE_API_URL=${VITE_API_URL:-http://localhost:4000}
+    env_file:
+      - ./client/.env
+    restart: unless-stopped
+    depends_on:
+      - backend
+    networks:
+      - loopla-network
+
+networks:
+  loopla-network:
+    driver: bridge
