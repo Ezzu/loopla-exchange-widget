@@ -19,7 +19,6 @@ fi
 echo
 echo "Copying environment files..."
 cp -n .env.example .env 2>/dev/null || echo ".env already exists"
-cp -n client/.env.example client/.env 2>/dev/null || echo "client/.env already exists"
 
 echo
 echo "Installing git hooks..."
