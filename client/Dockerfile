@@ -44,6 +44,10 @@ COPY client/src ./src
 COPY client/public ./public
 COPY shared ./shared
 
+# Build arguments for environment variables
+ARG VITE_API_BASE_URL
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
+
 # Build for production
 RUN npm run build
 
