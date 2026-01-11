@@ -46,9 +46,8 @@ FROM node:20-alpine AS production
 
 WORKDIR /app
 
-# Copy package files and tsconfig
+# Copy package files
 COPY package*.json ./
-COPY tsconfig.json ./
 
 # Install only production dependencies (skip postinstall scripts)
 RUN npm ci --only=production --ignore-scripts
@@ -61,4 +60,4 @@ COPY --from=build /app/shared ./shared
 EXPOSE 4000
 
 # Run the app
-CMD ["node", "-r", "tsconfig-paths/register", "dist/src/server.js"]
+CMD ["node", "dist/src/server.js"]
