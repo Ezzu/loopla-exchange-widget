@@ -60,4 +60,4 @@ COPY --from=build /app/shared ./shared
 EXPOSE 4000
 
 # Run the app
-CMD ["node", "dist/src/server.js"]
+CMD ["node", "-r", "tsconfig-paths/register", "dist/src/server.js"]

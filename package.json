@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/server.ts",
     "build": "tsc",
-    "start": "node dist/src/server.js",
+    "start": "node -r tsconfig-paths/register dist/src/server.js",
     "test": "jest",
     "install-hooks": "bash ./scripts/install-hooks.sh",
     "postinstall": "npm run install-hooks"
@@ -20,7 +20,8 @@
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
