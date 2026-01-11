@@ -362,7 +362,7 @@ Request → Routes → Middleware → Controller → Service → External API
 1. **Error Handling**
    - `ApiError` (base class)
    - `ValidationError` (400) - Client input errors
-   - `ExternalApiError` (424) - Dependency failures
+   - `ExternalApiError` (503) - Dependency failures
    - Custom errors extend base classes
    - Ensures browsers can read error response bodies
    - Better UX with proper error messages
@@ -436,14 +436,13 @@ Page → Container Components → Presentational Components
 
 #### Trade-offs
 
-| Decision            | Trade-off             | Reasoning                                |
-| ------------------- | --------------------- | ---------------------------------------- |
-| **In-memory cache** | Data lost on restart  | Simple, fast, no external dependencies   |
-| **No database**     | Stateless backend     | Reduces complexity for MVP               |
-| **Monorepo**        | Larger repo size      | Easier management, shared types          |
-| **Emotion CSS**     | Runtime overhead      | Better DX, scoped styles                 |
-| **424 status code** | Non-standard for APIs | Browser compatibility for error messages |
-| **5-min cache**     | Slightly stale data   | Balance between freshness and API limits |
+| Decision            | Trade-off            | Reasoning                                |
+| ------------------- | -------------------- | ---------------------------------------- |
+| **In-memory cache** | Data lost on restart | Simple, fast, no external dependencies   |
+| **No database**     | Stateless backend    | Reduces complexity for MVP               |
+| **Monorepo**        | Larger repo size     | Easier management, shared types          |
+| **Emotion CSS**     | Runtime overhead     | Better DX, scoped styles                 |
+| **10-mins cache**   | Slightly stale data  | Balance between freshness and API limits |
 
 ### File Naming Conventions
 
@@ -519,7 +518,7 @@ curl 'http://localhost:4000/api/v1/exchange-rates/latest?base=EUR'
   }
 }
 
-// 424 - External API Error
+// 503 - External API Error
 {
   "error": {
     "message": "Invalid API access key",
@@ -533,9 +532,9 @@ curl 'http://localhost:4000/api/v1/exchange-rates/latest?base=EUR'
 | Code                              | Status | Description                        |
 | --------------------------------- | ------ | ---------------------------------- |
 | `validation_error`                | 400    | Invalid request parameters         |
-| `invalid_access_key`              | 424    | External API key is invalid        |
-| `missing_access_key`              | 424    | External API key not configured    |
-| `base_currency_access_restricted` | 424    | Currency not available in API plan |
+| `invalid_access_key`              | 503    | External API key is invalid        |
+| `missing_access_key`              | 503    | External API key not configured    |
+| `base_currency_access_restricted` | 503    | Currency not available in API plan |
 
 ---
 
