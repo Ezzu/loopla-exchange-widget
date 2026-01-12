@@ -178,7 +178,7 @@ npm run dev
 **Live Deployment (Railway):**
 
 - **Frontend:** https://ideal-dream-production.up.railway.app
-- **Backend API:** https://loopla-exchange-widget-production.up.railway.app/api/v1
+- **Backend API:** https://loopla-exchange-widget-production.up.railway.app
 - **API Documentation:** https://loopla-exchange-widget-production.up.railway.app/api-docs
 
 If you encounter any issues during installation or startup, please refer to the [Troubleshooting](#-troubleshooting) section for common problems and solutions.
@@ -771,6 +771,7 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 - Modern frontend architecture patterns
 - Clean architecture principles
 - Stripe/Shopify engineering best practices
+- [InDrive engineering handbook](https://github.com/inDriver/handbook)
 
 ### Special Thanks
 
