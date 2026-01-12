@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/server.ts",
+    "dev:all": "concurrently \"npm run dev\" \"npm run dev --prefix client\" --names \"backend,frontend\" --prefix-colors \"cyan,magenta\"",
     "build": "tsc && tsc-alias",
     "start": "node dist/src/server.js",
     "test": "jest",
@@ -33,6 +34,7 @@
     "@types/supertest": "^6.0.3",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
+    "concurrently": "^9.2.1",
     "jest": "^30.2.0",
     "prettier": "^3.7.4",
     "supertest": "^7.2.2",

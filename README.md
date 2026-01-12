@@ -159,12 +159,8 @@ cp client/.env.example client/.env
 # Update .env with your API key
 # EXCHANGE_RATES_API_KEY=your_actual_api_key
 
-# Start backend (in one terminal)
-npm run dev
-
-# Start frontend (in another terminal)
-cd client
-npm run dev
+# Run both services with one command
+npm run dev:all
 ```
 
 ### Access the Application
